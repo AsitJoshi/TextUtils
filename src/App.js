@@ -1,23 +1,54 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import About from './components/About';
+import Navbar from './components/Navbar';
+import TextFormbyState from './components/TextFormbyState'
 
-function App() {
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+}
+  from 'react-router-dom';
+
+
+function App() {//a component can return only single element(here it is div className name=app);
+  //to return multiple elements we can use jsx fragments<></>
+  // return(
+
+  // <>
+  // <element 1>
+  // <element 2>
+  // </>
+  //   )
+
+
+  const [mode, setMode] = useState("light");//weather dark mode is enabled or not
+
+  const toggleMode = () => {
+    if (mode === "light") {
+      setMode("dark");
+      document.body.style.backgroundColor = "#21233f"
+    } else {
+      setMode("light");
+      document.body.style.backgroundColor = "white"
+
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+      <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
+        <Routes>
+          <Route path="/about" element={<About  mode={mode}/>} />
+          <Route path="/" element={<TextFormbyState heading="Enter the text" mode={mode} />} />
+        </Routes>
+      </Router>
+
+      {/* <Navbar />//calls deafult props */}
+
+
     </div>
   );
 }
